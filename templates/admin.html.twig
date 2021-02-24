@@ -1,0 +1,23 @@
+{% extends "adminbase.html.twig" %}
+ {% block body %}
+    
+    
+        <table id="tourlist" class="table">
+        <thead>
+            <tr>
+                <th>Tour Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tour in tours %}
+            <tr>
+                <td><a class="nav-link" href="{{ path('ot_admin_edittour', {'id': tour.id}) }}">{{ tour.name }}</a></td>
+                <td>Tour</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    
+
+ {% endblock %}
