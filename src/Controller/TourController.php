@@ -1,21 +1,21 @@
 <?php
 // src/Controller/DefaultController.php
-namespace App\Controller;
+namespace Apothan\OpenTourLibBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Tour;
-use App\Entity\SellDateBreak;
-use App\Entity\SellAmount;
-use App\Form\Type\AddTourType;
-use App\Form\Type\EditTourType;
-use App\Form\Type\TourCategoriesType;
-use App\Form\Type\TourSellsType;
-use App\Form\Type\TourBreakAddType;
-use App\Form\Type\TourFeaturesType;
-use App\Form\Type\TourItineraryType;
+use Apothan\OpenTourLibBundle\Entity\Tour;
+use Apothan\OpenTourLibBundle\Entity\SellDateBreak;
+use Apothan\OpenTourLibBundle\Entity\SellAmount;
+use Apothan\OpenTourLibBundle\Form\Type\AddTourType;
+use Apothan\OpenTourLibBundle\Form\Type\EditTourType;
+use Apothan\OpenTourLibBundle\Form\Type\TourCategoriesType;
+use Apothan\OpenTourLibBundle\Form\Type\TourSellsType;
+use Apothan\OpenTourLibBundle\Form\Type\TourBreakAddType;
+use Apothan\OpenTourLibBundle\Form\Type\TourFeaturesType;
+use Apothan\OpenTourLibBundle\Form\Type\TourItineraryType;
 
 class TourController extends AbstractController
 {

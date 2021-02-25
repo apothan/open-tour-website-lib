@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace Apothan\OpenTourLibBundle\Entity;
 
-use App\Repository\SellAmountRepository;
+use Apothan\OpenTourLibBundle\Repository\SellAmountRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,9 +23,9 @@ class SellAmount
     private $amount;
 
     /**
-    * @var \App\Entity\SellDateBreak
+    * @var \Apothan\OpenTourLibBundle\Entity\SellDateBreak
     *
-    * @ORM\ManyToOne(targetEntity="App\Entity\SellDateBreak", inversedBy="sellamounts")
+    * @ORM\ManyToOne(targetEntity="Apothan\OpenTourLibBundle\Entity\SellDateBreak", inversedBy="sellamounts")
     * @ORM\JoinColumns({
     *   @ORM\JoinColumn(name="selldatebreak", referencedColumnName="id")
     * })
@@ -33,9 +33,9 @@ class SellAmount
     private $selldatebreak;
 
     /**
-    * @var \App\Entity\TourCategory
+    * @var \Apothan\OpenTourLibBundle\Entity\TourCategory
     *
-    * @ORM\ManyToOne(targetEntity="App\Entity\TourCategory", inversedBy="sellamounts")
+    * @ORM\ManyToOne(targetEntity="Apothan\OpenTourLibBundle\Entity\TourCategory", inversedBy="sellamounts")
     * @ORM\JoinColumns({
     *   @ORM\JoinColumn(name="tourcategory", referencedColumnName="id")
     * })

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace Apothan\OpenTourLibBundle\Entity;
 
-use App\Repository\SellDateBreaksRepository;
+use Apothan\OpenTourLibBundle\Repository\SellDateBreaksRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -65,9 +65,9 @@ class SellDateBreak
     private $sun;
 
     /**
-    * @var \App\Entity\Tour
+    * @var \Apothan\OpenTourLibBundle\Entity\Tour
     *
-    * @ORM\ManyToOne(targetEntity="App\Entity\Tour", inversedBy="selldatebreaks")
+    * @ORM\ManyToOne(targetEntity="Apothan\OpenTourLibBundle\Entity\Tour", inversedBy="selldatebreaks")
     * @ORM\JoinColumns({
     *   @ORM\JoinColumn(name="tour", referencedColumnName="id")
     * })
@@ -77,7 +77,7 @@ class SellDateBreak
     /**
       * @var \Doctrine\Common\Collections\Collection
       *
-      * @ORM\OneToMany(targetEntity="App\Entity\SellAmount", mappedBy="selldatebreak", cascade={"persist","remove"})
+      * @ORM\OneToMany(targetEntity="Apothan\OpenTourLibBundle\Entity\SellAmount", mappedBy="selldatebreak", cascade={"persist","remove"})
       */
 
     private $sellamounts;

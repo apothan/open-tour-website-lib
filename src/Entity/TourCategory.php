@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace Apothan\OpenTourLibBundle\Entity;
 
-use App\Repository\TourCategoryRepository;
+use Apothan\OpenTourLibBundle\Repository\TourCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -45,9 +45,9 @@ class TourCategory
     private $pricing;
 
     /**
-    * @var \App\Entity\Tour
+    * @var \Apothan\OpenTourLibBundle\Entity\Tour
     *
-    * @ORM\ManyToOne(targetEntity="App\Entity\Tour", inversedBy="categories")
+    * @ORM\ManyToOne(targetEntity="Apothan\OpenTourLibBundle\Entity\Tour", inversedBy="categories")
     * @ORM\JoinColumns({
     *   @ORM\JoinColumn(name="tour", referencedColumnName="id")
     * })
@@ -57,7 +57,7 @@ class TourCategory
     /**
       * @var \Doctrine\Common\Collections\Collection
       *
-      * @ORM\OneToMany(targetEntity="App\Entity\SellAmount", mappedBy="tourcategory")
+      * @ORM\OneToMany(targetEntity="Apothan\OpenTourLibBundle\Entity\SellAmount", mappedBy="tourcategory")
       */
 
       private $sellamounts;
