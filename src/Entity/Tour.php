@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace Apothan\OpenTourLibBundle\Entity;
 
-use App\Repository\TourRepository;
+use Apothan\OpenTourLibBundle\Repository\TourRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -32,7 +32,7 @@ class Tour
     /**
       * @var \Doctrine\Common\Collections\Collection
       *
-      * @ORM\OneToMany(targetEntity="App\Entity\TourCategory", mappedBy="tour", cascade={"persist","remove"})
+      * @ORM\OneToMany(targetEntity="Apothan\OpenTourLibBundle\Entity\TourCategory", mappedBy="tour", cascade={"persist","remove"})
       */
 
     private $categories;
@@ -40,7 +40,7 @@ class Tour
     /**
       * @var \Doctrine\Common\Collections\Collection
       *
-      * @ORM\OneToMany(targetEntity="App\Entity\SellDateBreak", mappedBy="tour", cascade={"persist","remove"})
+      * @ORM\OneToMany(targetEntity="Apothan\OpenTourLibBundle\Entity\SellDateBreak", mappedBy="tour", cascade={"persist","remove"})
       */
 
     private $selldatebreaks;
@@ -48,7 +48,7 @@ class Tour
     /**
       * @var \Doctrine\Common\Collections\Collection
       *
-      * @ORM\OneToMany(targetEntity="App\Entity\TourItinerary", mappedBy="tour", cascade={"persist","remove"})
+      * @ORM\OneToMany(targetEntity="Apothan\OpenTourLibBundle\Entity\TourItinerary", mappedBy="tour", cascade={"persist","remove"})
       */
 
     private $itinerary;
@@ -56,7 +56,7 @@ class Tour
     /**
       * @var \Doctrine\Common\Collections\Collection
       *
-      * @ORM\OneToMany(targetEntity="App\Entity\TourFeature", mappedBy="tour", cascade={"persist","remove"})
+      * @ORM\OneToMany(targetEntity="Apothan\OpenTourLibBundle\Entity\TourFeature", mappedBy="tour", cascade={"persist","remove"})
       */
 
       private $features;

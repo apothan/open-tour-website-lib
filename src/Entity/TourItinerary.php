@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace Apothan\OpenTourLibBundle\Entity;
 
-use App\Repository\TourItineraryRepository;
+use Apothan\OpenTourLibBundle\Repository\TourItineraryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,9 +28,9 @@ class TourItinerary
     private $description;
 
     /**
-    * @var \App\Entity\Tour
+    * @var \Apothan\OpenTourLibBundle\Entity\Tour
     *
-    * @ORM\ManyToOne(targetEntity="App\Entity\Tour", inversedBy="itinerary")
+    * @ORM\ManyToOne(targetEntity="Apothan\OpenTourLibBundle\Entity\Tour", inversedBy="itinerary")
     * @ORM\JoinColumns({
     *   @ORM\JoinColumn(name="tour", referencedColumnName="id")
     * })

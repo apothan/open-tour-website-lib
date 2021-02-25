@@ -1,11 +1,11 @@
 <?php
 // src/Controller/DefaultController.php
-namespace App\Controller;
+namespace Apothan\OpenTourLibBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Tour;
+use Apothan\OpenTourLibBundle\Entity\Tour;
 
 class DefaultController extends AbstractController
 {
@@ -14,9 +14,9 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
-        $tours = $this->getDoctrine()->getRepository(Tour::class)->getThree();
-        
-        return $this->render('index.html.twig', [
+        //$tours = $this->getDoctrine()->getRepository(Tour::class)->getThree();
+        $tours = [];
+        return $this->render('@ApothanOpenTourLib/index.html.twig', [
             'tours' => $tours,
         ]);
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Type;
+namespace Apothan\OpenTourLibBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -36,7 +36,7 @@ class TourBreakType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => \App\Entity\SellDateBreak::class,
+            'data_class' => \Apothan\OpenTourLibBundle\Entity\SellDateBreak::class,
         ));
     }
 

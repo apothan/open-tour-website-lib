@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Apothan\OpenTourLibBundle\Repository;
 
-use App\Entity\TourItinerary;
+use Apothan\OpenTourLibBundle\Entity\TourItinerary;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace Apothan\OpenTourLibBundle\Repository;
 
-use App\Entity\SellAmount;
+use Apothan\OpenTourLibBundle\Entity\SellAmount;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

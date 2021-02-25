@@ -1,11 +1,11 @@
 <?php
 // src/Controller/DefaultController.php
-namespace App\Controller;
+namespace Apothan\OpenTourLibBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Tour;
+use Apothan\OpenTourLibBundle\Entity\Tour;
 
 class AdminController extends AbstractController
 {
