@@ -21,8 +21,6 @@
         "symfony/twig-bundle": "5.2.*",
         "symfony/yaml": "5.2.*"
     },
-    "require-dev": {
-    },
     "autoload": {
         "psr-4": {
             "Apothan\\OpenTourLibBundle\\": "src/"
