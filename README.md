@@ -1,5 +1,12 @@
 # open-tour-website-lib
 
+Create a new Symfony project
+
+```
+symfony new my-open-tour-website
+cd my-open-tour-website
+```
+
 Include the library using composer
 
 ```
