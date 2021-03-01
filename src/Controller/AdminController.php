@@ -16,7 +16,7 @@ class AdminController extends AbstractController
     {
         $tours = $this->getDoctrine()->getRepository(Tour::class)->findAll();
 
-        return $this->render('admin.html.twig', [
+        return $this->render('@ApothanOpenTourLib/admin.html.twig', [
             'tours' => $tours
         ]);
     }

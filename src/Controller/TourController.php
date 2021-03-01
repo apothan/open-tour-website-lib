@@ -27,7 +27,7 @@ class TourController extends AbstractController
         $entity = new Tour();
     	$tourForm = $this->createForm(AddTourType::class, $entity);
 
-        return $this->render('addtour.html.twig', [
+        return $this->render('@ApothanOpenTourLib/addtour.html.twig', [
             'tourform' => $tourForm->createView(),
         ]);
     }
@@ -53,7 +53,7 @@ class TourController extends AbstractController
     
     	}
     
-    	return $this->render('addtour.html.twig', [
+    	return $this->render('@ApothanOpenTourLib/addtour.html.twig', [
             'tourform' => $tourForm->createView(),
         ]);
     }
@@ -72,7 +72,7 @@ class TourController extends AbstractController
         
     	$tourForm = $this->createForm(EditTourType::class, $entity);
 
-        return $this->render('edittour.html.twig', [
+        return $this->render('@ApothanOpenTourLib/edittour.html.twig', [
             'tourform' => $tourForm->createView(),
             'tour' => $entity,
         ]);
@@ -104,7 +104,7 @@ class TourController extends AbstractController
     
     	}
     
-    	return $this->render('edittour.html.twig', [
+    	return $this->render('@ApothanOpenTourLib/edittour.html.twig', [
             'tourform' => $tourForm->createView(),
             'tour' => $entity,
         ]);
@@ -163,7 +163,7 @@ class TourController extends AbstractController
     
     	}
     
-    	return $this->render('tourcategories.html.twig', [
+    	return $this->render('@ApothanOpenTourLib/tourcategories.html.twig', [
             'tourform' => $tourForm->createView(),
             'tour' => $entity,
         ]);
@@ -232,7 +232,7 @@ class TourController extends AbstractController
     
     	}
     
-    	return $this->render('toursells.html.twig', [
+    	return $this->render('@ApothanOpenTourLib/toursells.html.twig', [
             'tourform' => $tourForm->createView(),
             'breakaddform' => $breakAddForm->createView(),
             'tour' => $entity,
@@ -325,7 +325,7 @@ class TourController extends AbstractController
     
     	}
     
-    	return $this->render('touritinerary.html.twig', [
+    	return $this->render('@ApothanOpenTourLib/touritinerary.html.twig', [
             'tourform' => $tourForm->createView(),
             'tour' => $entity,
         ]);
@@ -384,7 +384,7 @@ class TourController extends AbstractController
     
     	}
     
-    	return $this->render('tourfeatures.html.twig', [
+    	return $this->render('@ApothanOpenTourLib/tourfeatures.html.twig', [
             'tourform' => $tourForm->createView(),
             'tour' => $entity,
         ]);

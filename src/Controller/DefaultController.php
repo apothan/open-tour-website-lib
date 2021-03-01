@@ -28,7 +28,7 @@ class DefaultController extends AbstractController
     {
         $tour = $this->getDoctrine()->getRepository(Tour::class)->find($id);
         
-        return $this->render('tour.html.twig', [
+        return $this->render('@ApothanOpenTourLib/tour.html.twig', [
             'tour' => $tour,
         ]);
     }
