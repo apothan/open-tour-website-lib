@@ -13,6 +13,7 @@ Include the library using composer
 composer require apothan/open-tour-website-lib
 composer require symfony/webpack-encore-bundle
 composer require symfony/orm-pack
+composer require symfony/security-bundle
 ```
 Copy the file called apothan_open_tour_lib.yaml located in the 
 config folder of the bundle and add it to the config/routes/ directory of your project.
