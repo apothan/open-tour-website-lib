@@ -24,3 +24,8 @@ php bin/console cache:clear
 ```
 
 access routes in the bundle by adding /OT prefix your site's root URL.
+
+Requires:
+
+Symfony >= 2.0
+NodeJS >= 12.13.0
