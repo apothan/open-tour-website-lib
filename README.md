@@ -1,5 +1,12 @@
 # open-tour-website-lib
 
+If you want to see what this library does and how the pages look you should look at https://github.com/apothan/open-tour-website
+
+Follow the README file on that repo
+
+
+Instructions to use this lib in a Symfony project:
+
 Create a new Symfony project
 
 ```
