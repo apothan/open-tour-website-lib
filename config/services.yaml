@@ -4,6 +4,10 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    opentour.externalapi: '%env(API_EXTERNAL)%'
+    opentour.apiurl: '%env(string:API_URL)%'
+    opentour.apiuser: '%env(string:API_USER)%'
+    opentour.apipass: '%env(string:API_PASSWORD)%'
 
 services:
     # default configuration for services in *this* file

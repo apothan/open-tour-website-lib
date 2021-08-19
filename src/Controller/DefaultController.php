@@ -24,6 +24,7 @@ class DefaultController extends AbstractController
         $tours = [];
         $tours =  $this->product_service->getTours(3);
 
+
         return $this->render('@ApothanOpenTourLib/index.html.twig', [
             'tours' => $tours,
         ]);
