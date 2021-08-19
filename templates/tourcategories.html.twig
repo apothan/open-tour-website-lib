@@ -20,7 +20,7 @@
                 <th>Pricing</th>
             </tr>
             </thead>
-            <tbody data-prototype="{% apply escape %}{% include 'tourcategories_row.html.twig' with {'form': tourform.categories.vars.prototype} %}{% endapply %}">
+            <tbody data-prototype="{% apply escape %}{% include '@ApothanOpenTourLib/tourcategories_row.html.twig' with {'form': tourform.categories.vars.prototype} %}{% endapply %}">
             {% for category in tourform.categories %}
             <tr>
                 <td>{{ form_errors(category.code) }}{{ form_widget(category.code) }}</td>

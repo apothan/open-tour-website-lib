@@ -18,7 +18,7 @@
                 <th>Description</th>
             </tr>
             </thead>
-            <tbody data-prototype="{% apply escape %}{% include 'touritinerary_row.html.twig' with {'form': tourform.itinerary.vars.prototype} %}{% endapply %}">
+            <tbody data-prototype="{% apply escape %}{% include '@ApothanOpenTourLib/touritinerary_row.html.twig' with {'form': tourform.itinerary.vars.prototype} %}{% endapply %}">
             {% for itineraryday in tourform.itinerary %}
             <tr>
                 <td>{{ form_errors(itineraryday.header) }}{{ form_widget(itineraryday.header) }}</td>

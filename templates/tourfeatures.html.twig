@@ -17,7 +17,7 @@
                 <th>Description</th>
             </tr>
             </thead>
-            <tbody data-prototype="{% apply escape %}{% include 'tourfeatures_row.html.twig' with {'form': tourform.features.vars.prototype} %}{% endapply %}">
+            <tbody data-prototype="{% apply escape %}{% include '@ApothanOpenTourLib/tourfeatures_row.html.twig' with {'form': tourform.features.vars.prototype} %}{% endapply %}">
             {% for feature in tourform.features %}
             <tr>
                 <td>{{ form_errors(feature.description) }}{{ form_widget(feature.description) }}</td>

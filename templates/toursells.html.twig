@@ -30,7 +30,7 @@
                 <th></th>
             </tr>
             </thead>
-            <tbody data-prototype="{% apply escape %}{% include 'toursells_row.html.twig' with {'form': tourform.selldatebreaks.vars.prototype} %}{% endapply %}">
+            <tbody data-prototype="{% apply escape %}{% include '@ApothanOpenTourLib/toursells_row.html.twig' with {'form': tourform.selldatebreaks.vars.prototype} %}{% endapply %}">
             {% for break in tourform.selldatebreaks %}
             <tr>
                 <td>{{ form_errors(break.start) }}{{ form_widget(break.start) }}</td>
