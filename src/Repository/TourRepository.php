@@ -19,10 +19,10 @@ class TourRepository extends ServiceEntityRepository
         parent::__construct($registry, Tour::class);
     }
 
-    public function getThree()
+    public function getTours($qty)
     {
         return $this->createQueryBuilder('c')
-            ->setMaxResults(3)
+            ->setMaxResults($qty)
             ->getQuery()
             ->getResult()
         ;
