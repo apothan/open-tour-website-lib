@@ -8,3 +8,12 @@ body {
     border-width: .2rem;
     background-color: white;
 }
+
+.form-inline span {
+    display: inline-block;
+    margin-top: 0%;
+    vertical-align: inherit;
+}
+.form-inline button {
+    vertical-align: inherit;
+}
