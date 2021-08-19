@@ -42,6 +42,17 @@ To
 .addEntry('touritinerary', './vendor/apothan/open-tour-website-lib/assets/js/touritinerary.js')
 ```
 
+Add this configuration to your .env file
+
+```
+###> apothan/open-tour-website-li ###
+API_EXTERNAL=true
+API_URL=apiurl.com
+API_USER=myusername
+API_PASSWORD=mypassword
+###> apothan/open-tour-website-li ###
+```
+
 Copy the file called apothan_open_tour_lib.yaml located in the 
 config folder of the bundle and add it to the config/routes/ directory of your project.
 
