@@ -25,7 +25,7 @@ yarn add popper.js
 ```
 
 Edit webpack.config.js 
-change ".addEntry('app', './assets/js/app.js')" 
+change ".addEntry('app', './assets/js/app.js')"
 to ".addEntry('app', './vendor/apothan/open-tour-website-lib/assets/js/app.js')" 
 
 Copy the file called apothan_open_tour_lib.yaml located in the 
