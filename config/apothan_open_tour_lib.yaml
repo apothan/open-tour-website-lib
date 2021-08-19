@@ -1,7 +1,7 @@
 _open_tour_lib:
     resource: '@ApothanOpenTourLibBundle/config/routes/'
     type: directory
-    prefix: /OT
+    prefix: /
 
 
 #_open_tours_default:
