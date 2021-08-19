@@ -15,6 +15,19 @@ composer require symfony/webpack-encore-bundle
 composer require symfony/orm-pack
 composer require symfony/security-bundle
 ```
+
+Include the library using yarn
+
+```
+yarn add bootstrap
+yarn add jquery
+yarn add popper.js
+```
+
+Edit webpack.config.js 
+change ".addEntry('app', './assets/js/app.js')" 
+to ".addEntry('app', './vendor/apothan/open-tour-website-lib/assets/js/app.js')" 
+
 Copy the file called apothan_open_tour_lib.yaml located in the 
 config folder of the bundle and add it to the config/routes/ directory of your project.
 
