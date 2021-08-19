@@ -43,8 +43,7 @@ clear cache
 ```
 php bin/console cache:clear
 ```
-
-access routes in the bundle by adding /OT prefix your site's root URL.
+Add your DB details in the .env file
 
 Requires:
 
