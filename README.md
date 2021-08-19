@@ -22,6 +22,7 @@ Include the library using yarn
 yarn add bootstrap
 yarn add jquery
 yarn add popper.js
+yarn add @popperjs/core
 ```
 
 Edit webpack.config.js entry from
@@ -34,6 +35,11 @@ To
 
 ```
 .addEntry('app', './vendor/apothan/open-tour-website-lib/assets/js/app.js')
+.addEntry('app', './vendor/apothan/open-tour-website-lib/assets/js/app.js')
+.addEntry('tourcategories', './vendor/apothan/open-tour-website-lib/assets/js/tourcategories.js')
+.addEntry('tourfeatures', './vendor/apothan/open-tour-website-lib/assets/js/tourfeatures.js')
+.addEntry('toursells', './vendor/apothan/open-tour-website-lib/assets/js/toursells.js')
+.addEntry('touritinerary', './vendor/apothan/open-tour-website-lib/assets/js/touritinerary.js')
 ```
 
 Copy the file called apothan_open_tour_lib.yaml located in the 
