@@ -25,7 +25,9 @@ yarn add popper.js
 ```
 
 Edit webpack.config.js 
+
 change ".addEntry('app', './assets/js/app.js')"
+
 to ".addEntry('app', './vendor/apothan/open-tour-website-lib/assets/js/app.js')" 
 
 Copy the file called apothan_open_tour_lib.yaml located in the 
@@ -41,4 +43,5 @@ access routes in the bundle by adding /OT prefix your site's root URL.
 Requires:
 
 Symfony >= 2.0
+
 NodeJS >= 12.13.0
