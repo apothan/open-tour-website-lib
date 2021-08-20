@@ -69,6 +69,7 @@ class Products
 
             $tours4 = json_decode($return, true);
             
+            $tours = array();
             if (isset($tours4['products'])) $tours = array_merge ($full_list, $tours4['products']);
             $tours = $this->openTourNormaliser($tours);
         }

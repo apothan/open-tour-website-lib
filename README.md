@@ -17,9 +17,8 @@ cd my-open-tour-website
 Include the library using composer
 
 ```
-composer require apothan/open-tour-website-lib
+composer require apothan/open-tour-website-lib dev-main
 composer require symfony/webpack-encore-bundle
-composer require symfony/orm-pack
 composer require symfony/security-bundle
 ```
 
@@ -41,7 +40,6 @@ Edit webpack.config.js entry from
 To 
 
 ```
-.addEntry('app', './vendor/apothan/open-tour-website-lib/assets/js/app.js')
 .addEntry('app', './vendor/apothan/open-tour-website-lib/assets/js/app.js')
 .addEntry('tourcategories', './vendor/apothan/open-tour-website-lib/assets/js/tourcategories.js')
 .addEntry('tourfeatures', './vendor/apothan/open-tour-website-lib/assets/js/tourfeatures.js')
