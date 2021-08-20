@@ -6,14 +6,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Apothan\OpenTourLibBundle\Service\Products;
+use Apothan\OpenTourLibBundle\Service\Menu;
 
 class DefaultController extends AbstractController
 {
     private $product_service;
+    private $menu_service;
 
-    public function __construct(Products $product_service)
+    public function __construct(Products $product_service, Menu $menu_service)
     {
         $this->product_service = $product_service;
+        $this->menu_service = $menu_service;
     }
 
     /**
@@ -21,12 +24,14 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
+        $menuitems = $this->menu_service->getMenuItems();
+
         $tours = [];
         $tours =  $this->product_service->getTours(3);
 
-
         return $this->render('@ApothanOpenTourLib/index.html.twig', [
             'tours' => $tours,
+            'menuitems' => $menuitems,
         ]);
     }
 
@@ -35,10 +40,13 @@ class DefaultController extends AbstractController
      */
     public function tour($id)
     {
+        $menuitems = $this->menu_service->getMenuItems();
+
         $tour = $this->product_service->getTour($id);
         
         return $this->render('@ApothanOpenTourLib/tour.html.twig', [
             'tour' => $tour,
+            'menuitems' => $menuitems,
         ]);
     }
 }
