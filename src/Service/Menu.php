@@ -92,80 +92,82 @@ class Menu
         //dump($return); die();
         $results = json_decode($return);
         //dump( $results); die();
+        $orderIndex = array();
         $count = 0;
-        foreach ($results->results as $key => $countryitem)
-        {
-            switch ($key) {
-                case 1:
-                    $country = 'IT';
-                    break;
-                case 2:
-                    $country = 'GB';
-                    break;
-                case 3:
-                    $country = 'FR';
-                    break;
-                case 4:
-                    $country = 'ES';
-                    break;
-                case 5:
-                    $country = 'GR';
-                    break;
-                case 6:
-                    $country = 'PT';
-                    break;
-                //case 7:
-                    //$country = 'DE';
-                    //break;
-            }
-            //VarDumper::dump($countryitem);
-
-            $orderIndex = array(
-                'IT' => array("Rome", "Florence", "Venice"),
-                'GB' => array("London", "Edinburgh", "Glasgow"),
-                'FR' => array("Paris", "Nice", "Avignon"),
-                'ES' => array("Barcelona", "Madrid", "Costa del Sol"),
-                'GR' => array("Athens", "Mykonos", "Santorin"),
-                'PT' => array("Porto", "Lisbon", "Algarve"),
-                'DE' => array("Munich", "Frankfurt", "Berlin"),
-                'Hungary' => array(),
-                'Switzerland' => array(),
-                'Austria' => array()
-            );
-//dump($countryitem);die();
-            foreach ($countryitem as $key2 => $categoryname)
+        if(is_object($results))
+            foreach ($results->results as $key => $countryitem)
             {
-                
-                if ($count < 6)
-                {
-                    $menuitems['categories'][$country][$key2]['category'] = $categoryname->category;
-                    $menuitems['categories'][$country][$key2]['categoryid'] = $categoryname->id;
+                switch ($key) {
+                    case 1:
+                        $country = 'IT';
+                        break;
+                    case 2:
+                        $country = 'GB';
+                        break;
+                    case 3:
+                        $country = 'FR';
+                        break;
+                    case 4:
+                        $country = 'ES';
+                        break;
+                    case 5:
+                        $country = 'GR';
+                        break;
+                    case 6:
+                        $country = 'PT';
+                        break;
+                    //case 7:
+                        //$country = 'DE';
+                        //break;
                 }
-                if ($count == 6) {
-                    if ($categoryname->country == 'IT' || $categoryname->country == 'GB' || $categoryname->country == 'FR' || $categoryname->country == 'ES' || $categoryname->country == 'GR' || $categoryname->country == 'PT' || $categoryname->country == 'AF')
-                        continue;
-                    else
-                        $menuitems['othercountries'][] = $categoryname->country;
-                    //dump($categoryname);
-                }
-                if ($count >= 7) 
+                //VarDumper::dump($countryitem);
+
+                $orderIndex = array(
+                    'IT' => array("Rome", "Florence", "Venice"),
+                    'GB' => array("London", "Edinburgh", "Glasgow"),
+                    'FR' => array("Paris", "Nice", "Avignon"),
+                    'ES' => array("Barcelona", "Madrid", "Costa del Sol"),
+                    'GR' => array("Athens", "Mykonos", "Santorin"),
+                    'PT' => array("Porto", "Lisbon", "Algarve"),
+                    'DE' => array("Munich", "Frankfurt", "Berlin"),
+                    'Hungary' => array(),
+                    'Switzerland' => array(),
+                    'Austria' => array()
+                );
+
+                foreach ($countryitem as $key2 => $categoryname)
                 {
-                    if(in_array($categoryname->city, $orderIndex[$categoryname->country]))
+                    
+                    if ($count < 6)
                     {
-                        $menuitems['cities'][$categoryname->country][array_search($categoryname->city, $orderIndex[$categoryname->country])] = $categoryname->city;
-                        ksort($menuitems['cities'][$categoryname->country]);
+                        $menuitems['categories'][$country][$key2]['category'] = $categoryname->category;
+                        $menuitems['categories'][$country][$key2]['categoryid'] = $categoryname->id;
                     }
-                    else
-                        $menuitems['cities'][$categoryname->country][] = $categoryname->city;
-                }
-                    /*$menuitems[$country][$key2]['city'] = $categoryname->city;
-                if (isset($categoryname->city))
-                    foreach ($categoryname->city as $key3 => $city) {
-                        $menuitems[$country][$key2]['cities'][] = $city;
-                    } */    
-            }//die();
-            $count++;
-        }//die();
+                    if ($count == 6) {
+                        if ($categoryname->country == 'IT' || $categoryname->country == 'GB' || $categoryname->country == 'FR' || $categoryname->country == 'ES' || $categoryname->country == 'GR' || $categoryname->country == 'PT' || $categoryname->country == 'AF')
+                            continue;
+                        else
+                            $menuitems['othercountries'][] = $categoryname->country;
+                        //dump($categoryname);
+                    }
+                    if ($count >= 7) 
+                    {
+                        if(in_array($categoryname->city, $orderIndex[$categoryname->country]))
+                        {
+                            $menuitems['cities'][$categoryname->country][array_search($categoryname->city, $orderIndex[$categoryname->country])] = $categoryname->city;
+                            ksort($menuitems['cities'][$categoryname->country]);
+                        }
+                        else
+                            $menuitems['cities'][$categoryname->country][] = $categoryname->city;
+                    }
+                        /*$menuitems[$country][$key2]['city'] = $categoryname->city;
+                    if (isset($categoryname->city))
+                        foreach ($categoryname->city as $key3 => $city) {
+                            $menuitems[$country][$key2]['cities'][] = $city;
+                        } */    
+                }//die();
+                $count++;
+            }
         //dump($menuitems);die();
         $temparray = array();
         foreach($orderIndex as $country => $cities)
