@@ -222,7 +222,7 @@ class Menu
         return $menuitems;
     }
 
-    function getCategories()
+    function getCategories(): Array
     {
         $dataArray = $dataArray2 = [];
         $categories = [];
@@ -236,11 +236,11 @@ class Menu
         {
             //we now need to get products for each category available
             //create a grouped query for all the categories
-            foreach($results[0] as $key => $categoryInfo)
-                $dataArray2["query"][]["productavailrqs"] = ['servicerequest' => ['category' => 'Tour', 'subcategory' => $categoryInfo['id']]];
+            //foreach($results[0] as $key => $categoryInfo)
+            //    $dataArray2["query"][]["productavailrqs"] = ['servicerequest' => ['category' => 'Tour', 'subcategory' => $categoryInfo['id']]];
 
             //now we send the grouped query request
-            $results2 = $this->queryApi($dataArray2);
+            $results2 = [];//$this->queryApi($dataArray2);
 
             //cycle through the categories
             foreach($results[0] as $key => $categoryInfo)
@@ -258,7 +258,7 @@ class Menu
         return $categories;
     }
     
-    function getCountries()
+    function getCountries(): Array
     {
         $dataArray = $dataArray2 = [];
         $countries = [];
@@ -272,11 +272,11 @@ class Menu
              //we now need to get products for each country available
             //create a grouped query for all the countries
            
-            foreach($results[0] as $countryInfo)
-                $dataArray2["query"][]["productavailrqs"] = ['servicerequest' => ['category' => 'Tour', 'country' => $countryInfo['country']]];
+            //foreach($results[0] as $countryInfo)
+            //    $dataArray2["query"][]["productavailrqs"] = ['servicerequest' => ['category' => 'Tour', 'country' => $countryInfo['country']]];
             
             //now we send the grouped query request
-            $results2 = $this->queryApi($dataArray2);
+            $results2 = [];//$this->queryApi($dataArray2);
 
             //cycle through the countries
             foreach($results[0] as $key => $countryInfo)
@@ -294,7 +294,7 @@ class Menu
         return $countries;
     }
 
-    function getCountryCities()
+    function getCountryCities(): Array
     {
         $dataArray = $dataArray2 = $dataArray3 = [];
         $countries = [];
@@ -313,6 +313,7 @@ class Menu
             //next, we get all the products based on the cities
             //we do this by foreaching through the countries and then the cities, this causes the query group to be created in the 
             //2 level foreached order of each city and we can later match the order.
+            /*
             if(isset($results2[0]))
             {
                 foreach($results2 as $countryIndex)
@@ -321,8 +322,9 @@ class Menu
             }
             else //if there's no city we don't need to continue;
                 return [];
+            */
             //now we send the grouped query request
-            $results3 = $this->queryApi($dataArray3);
+            $results3 = [];//$this->queryApi($dataArray3);
 
             //this index is simply a count to anchor the products with the city.
             $cityIndex=0;
@@ -355,7 +357,7 @@ class Menu
         return $countries;
     }
 
-    function getCategoryCountries()
+    function getCategoryCountries(): Array
     {
         $dataArray = $dataArray2 = $dataArray3 = [];
         $categories = [];
@@ -374,6 +376,7 @@ class Menu
             //next, we get all the products based on the countries
             //we do this by foreaching through the categories and then the countries, this causes the query group to be created in the 
             //2 level foreached order of each country and we can later match the order.
+            /*
             if(isset($results2[0]))
             {
                 foreach($results2 as $key => $categoryIndex)
@@ -384,9 +387,9 @@ class Menu
             }
             else //if there's no category we don't need to continue;
                 return [];
-               
+            */
             //now we send the grouped query request
-            $results3 = $this->queryApi($dataArray3);
+            $results3 = [];//$this->queryApi($dataArray3);
             
             //this index is simply a count to anchor the product's order with the country.
             $countryIndex=0;
@@ -420,7 +423,60 @@ class Menu
         return $categories;
     }
 
-    function queryApi($query)
+    function getCountryCategories(): Array
+    {
+        $dataArray = $dataArray2 = $dataArray3 = [];
+        $countries = [];
+
+        
+        //Query for countries
+        $dataArray["query"][]["countries"] = [];
+        $results = $this->queryApi($dataArray);
+       
+        if(isset($results[0]))
+        {
+            //get categories based on countries 
+            foreach($results[0] as $countryInfo)
+                $dataArray2["query"][]["subcategories"] = ['country' => $countryInfo['country']];
+            $results2 = $this->queryApi($dataArray2);
+            
+            //next, we get all the products based on the countries
+            //we do this by foreaching through the categories and then the countries, this causes the query group to be created in the 
+            //2 level foreached order of each country and we can later match the order.
+            /*
+            if(isset($results2[0]))
+            {
+                foreach($results2 as $key => $categoryIndex)
+                {
+                    foreach($categoryIndex as $country)
+                        $dataArray3["query"][]["productavailrqs"] = ['servicerequest' => ['subcategory' => $results[0][$key]['id'], 'country' => $country['country']]];
+                }
+            }
+            else //if there's no category we don't need to continue;
+                return [];
+            */
+            
+            foreach($results[0] as $key => $countryInfo)
+            {
+                $countries[$key]['name'] = Countries::getName($countryInfo['country']);
+                $countries[$key]['code'] = $countryInfo['country'];
+
+                if(isset($results2[$key]) && isset($results2[$key][0]))
+                {
+                    foreach($results2[$key] as $key2 => $categoryInfo)
+                    {
+                        $countries[$key]['categories'][$key2]['name'] = $categoryInfo['category'];
+                        $countries[$key]['categories'][$key2]['id'] = $categoryInfo['id'];
+                    }
+                }
+            }
+
+        }
+        
+        return $countries;
+    }
+
+    function queryApi(Array $query): Array
     {
         $json = json_encode($query);
 
