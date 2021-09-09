@@ -29,7 +29,7 @@ class DefaultController extends AbstractController
 
         return $this->render('@ApothanOpenTourLib/index.html.twig', [
             'tours' => $tours,
-            'menu' => $this->menu_service,
+            'menu' => $this->menu_service->getMenuItems(),
         ]);
     }
 

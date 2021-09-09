@@ -18,7 +18,7 @@ class Menu
        $this->params = $params;
     }
 
-    function getMenuItems($settings)
+    function getMenuItemsOld($settings)
     {
         //Determine Settings---
         $viewmode = 'country';
@@ -220,6 +220,109 @@ class Menu
         */
 
         return $menuitems;
+    }
+
+    public function getMenuItems(): Array
+    {
+
+        $dataArray = $dataArray2 = [];
+        $hasCategoryCountries = false;
+        $categories = [];
+        $countries = [];
+        $menuData = [];
+
+        //subcategroy request
+        $dataArray["query"][]["subcategories"] = ['category' => 'Tour'];
+        //countries request
+        $dataArray["query"][]["countries"] = ['category' => 'Tour'];
+
+        $results = $this->queryApi($dataArray);
+
+        if(isset($results[0]))
+        {
+            //get countries based on categories
+            foreach($results[0] as $categoryInfo)
+                $dataArray2["query"][]["countries"] = ['subcategory' => $categoryInfo['id']];
+
+            //if we recieved a response from the subcategories array, we make a note fore later
+            $hasCategoryCountries = true;
+
+            foreach($results[0] as $key => $categoryInfo)
+            {
+                //and assign the name and id to the array we will be returning
+                $categories[$key]['name'] = $categoryInfo['category'];
+                $categories[$key]['id'] = $categoryInfo['id'];
+            }
+        }
+
+        if(isset($results[1]))
+        {
+            //get cities based on countries
+            foreach($results[1] as $countryInfo)
+                $dataArray2["query"][]["cities"] = ['country' => $countryInfo['country'], 'category' => 'Tour'];
+
+            //get categories based on countries 
+            foreach($results[1] as $countryInfo)
+                $dataArray2["query"][]["subcategories"] = ['country' => $countryInfo['country']];
+            
+            foreach($results[1] as $key => $countryInfo)
+            {
+                //and assign the name and id to the array we will be returning
+                $countries[$key]['name'] = Countries::getName($countryInfo['country']);
+                $countries[$key]['code'] = $countryInfo['country'];
+            }
+        }
+
+        //if the second query array is set
+        if(count($dataArray2) > 0)
+        {
+            //then we make the call for the secondary info
+            $results2 = $this->queryApi($dataArray2);
+
+            //set arrays for the different secondary queries
+            $parts = ['countries' => [], 'cities' => [], 'subcategories' => []];
+
+            //if we have a list of first query categories
+            if($hasCategoryCountries)
+                $parts['countries'] = array_splice($results2, 0, count($results[0]));
+
+            $parts['cities'] = array_splice($results2, 0, count($results[1]));
+            $parts['subcategories'] = array_splice($results2, 0);
+         
+
+            foreach($categories as $key => $category)
+            {
+                //cycle through the countries
+                foreach($parts['countries'][$key] as $key2 => $countryInfo)
+                {
+                    //add the country to the category
+                    $categories[$key]['countries'][$key2]['name'] = Countries::getName($countryInfo['country']);
+                    $categories[$key]['countries'][$key2]['code'] = $countryInfo['country'];
+                }
+            }
+
+            foreach($countries as $key => $country)
+            {
+                foreach($parts['cities'][$key] as $key2 => $city)
+                {
+                    //add the city to the country
+                    $countries[$key]['cities'][$key2]['name'] = $city['city'];
+                }
+                if(isset($parts['subcategories'][$key]))
+                    foreach($parts['subcategories'][$key] as $key2 => $categoryInfo)
+                    {
+                        $countries[$key]['categories'][$key2]['name'] = $categoryInfo['category'];
+                        $countries[$key]['categories'][$key2]['id'] = $categoryInfo['id'];
+                    }
+            }
+        }
+
+        $menuData = [
+            'countries' => $countries,
+            'categories' => $categories
+        ];
+
+        return $menuData;
     }
 
     function getCategories(): Array
@@ -430,7 +533,7 @@ class Menu
 
         
         //Query for countries
-        $dataArray["query"][]["countries"] = [];
+        $dataArray["query"][]["countries"] = ['category' => 'Tour'];
         $results = $this->queryApi($dataArray);
        
         if(isset($results[0]))
