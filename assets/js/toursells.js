@@ -1,4 +1,4 @@
-jQuery(document).ready(function() {
+$(function() {
     //Get the div that holds the collection of tags
     var collectionHolder = $('#sellbreak_list tbody');
 
@@ -9,15 +9,13 @@ jQuery(document).ready(function() {
         addTagFormDeleteLink($(this));
     });
         
-
-    
 });
 
 function addTagFormDeleteLink($tagFormTr) {
     var $removeFormA = $('<td><a href="#">delete</a></td>');
     $tagFormTr.append($removeFormA);
     
-    $removeFormA.click(function(e) {
+    $removeFormA.on('click', function(e) {
         // prevent the link from creating a "#" on the URL
         e.preventDefault();
 

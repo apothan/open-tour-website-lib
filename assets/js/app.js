@@ -6,7 +6,6 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import 'bootstrap/dist/css/bootstrap.css';
 import '../css/app.css';
 
 const $ = require('jquery');
