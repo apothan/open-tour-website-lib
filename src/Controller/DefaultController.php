@@ -44,7 +44,7 @@ class DefaultController extends AbstractController
         
         return $this->render('@ApothanOpenTourLib/tour.html.twig', [
             'tour' => $tour,
-            'menu' => $this->menu_service,
+            'menu' => $this->menu_service->getMenuItems(),
         ]);
     }
 }
