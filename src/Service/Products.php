@@ -103,6 +103,7 @@ class Products
     private function mergeProductTour($tourold)
     {
         $tour = new Tour();
+        $tour->setId($tourold['productid']);
         $tour->setName($tourold['name']);
         $tour->setDescription($tourold['description']);
         $tour->setLowsell($tourold['low']);
@@ -111,7 +112,7 @@ class Products
             foreach($tourold['categories'] as $cat)
             {
                 $category = new TourCategory();
-                $category->setCode($cat['id']);
+                $category->setId($cat['id']);
                 $category->setName($cat['category']);
                 $category->setMin($cat['min']);
                 $category->setMax($cat['max']);
