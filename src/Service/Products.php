@@ -4,6 +4,11 @@ namespace Apothan\OpenTourLibBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Apothan\OpenTourLibBundle\Entity\Tour;
+use Apothan\OpenTourLibBundle\Entity\TourCategory;
+use Apothan\OpenTourLibBundle\Entity\TourHotel;
+use Apothan\OpenTourLibBundle\Entity\TourCoordinate;
+use Apothan\OpenTourLibBundle\Entity\SellDateBreak;
+use Apothan\OpenTourLibBundle\Entity\SellAmount;
 use Apothan\OpenTourLibBundle\Service\RestClient;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
@@ -100,6 +105,76 @@ class Products
         $tour = new Tour();
         $tour->setName($tourold['name']);
         $tour->setDescription($tourold['description']);
+        $tour->setLowsell($tourold['low']);
+
+        if(isset($tourold['categories']))
+            foreach($tourold['categories'] as $cat)
+            {
+                $category = new TourCategory();
+                $category->setCode($cat['id']);
+                $category->setName($cat['category']);
+                $category->setMin($cat['min']);
+                $category->setMax($cat['max']);
+                $category->setPricing($cat['pricing']);
+                //$category->addSellamount();
+
+                $tour->addCategory($category);
+            }
+
+        if(isset($tourold['breaks']))
+            foreach($tourold['breaks'] as $break)
+            {
+                $sellDateBreak = new SellDateBreak();
+                $sellDateBreak->setStart(new \DateTime($break['start']));
+                $sellDateBreak->setEnd(new \DateTime($break['end']));
+                $sellDateBreak->setMon($break['days']['mon']);
+                $sellDateBreak->setTue($break['days']['tue']);
+                $sellDateBreak->setWed($break['days']['wed']);
+                $sellDateBreak->setThu($break['days']['thu']);
+                $sellDateBreak->setFri($break['days']['fri']);
+                $sellDateBreak->setSat($break['days']['sat']);
+                $sellDateBreak->setSun($break['days']['sun']);
+
+                foreach($break['amounts'] as $amount)
+                {
+                    $sellAmount = new SellAmount();
+                    $sellAmount->setAmount($amount['amount']);
+                   
+                    foreach($tour->getCategories() as $cat)
+                        if($cat->getCode() == $amount['categoryid'])
+                        {
+                            $cat->addSellamount($sellAmount);
+                        }
+
+                    $sellDateBreak->addSellamount($sellAmount);
+                }
+
+                $tour->addSelldatebreak($sellDateBreak);
+            }
+
+        if(isset($tourold['coordinates']))
+            foreach($tourold['coordinates'] as $coordinate)
+            {
+                $tourCoor = new TourCoordinate();
+                $tourCoor->setCoorx($coordinate['coorx']);
+                $tourCoor->setCoory($coordinate['coory']);
+                $tourCoor->setCity($coordinate['city']);
+
+                $tour->addCoordinate($tourCoor);
+            }
+
+        if(isset($tourold['hotels']))
+            foreach($tourold['hotels'] as $hotel)
+            {
+                $tourHotel = new TourHotel();
+                $tourHotel->setName($hotel['name']);
+                $tourHotel->setCity($hotel['city']);
+                $tourHotel->setDescription($hotel['description']);
+                $tourHotel->setHotelrating($hotel['hotel_rating']);
+                $tourHotel->setImage($hotel['image']);
+
+                $tour->addHotel($tourHotel);
+            }
 
         return $tour;
     }

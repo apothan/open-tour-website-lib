@@ -61,12 +61,35 @@ class Tour
 
       private $features;
 
+     /**
+      * @var \Doctrine\Common\Collections\Collection
+      *
+      * @ORM\OneToMany(targetEntity="Apothan\OpenTourLibBundle\Entity\TourHotel", mappedBy="tour", cascade={"persist","remove"})
+      */
+
+      private $hotels;
+
+      /**
+      * @var \Doctrine\Common\Collections\Collection
+      *
+      * @ORM\OneToMany(targetEntity="Apothan\OpenTourLibBundle\Entity\TourCoordinate", mappedBy="tour", cascade={"persist","remove"})
+      */
+
+      private $coordinates;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $lowsell;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->selldatebreaks = new ArrayCollection();
         $this->itinerary = new ArrayCollection();
         $this->features = new ArrayCollection();
+        $this->hotels = new ArrayCollection();
+        $this->coordinates = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -218,6 +241,80 @@ class Tour
                 $feature->setTour(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TourHotel[]
+     */
+    public function getHotels(): Collection
+    {
+        return $this->hotels;
+    }
+
+    public function addHotel(TourHotel $hotel): self
+    {
+        if (!$this->hotels->contains($hotel)) {
+            $this->hotels[] = $hotel;
+            $hotel->setTour($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHotel(TourHotel $hotel): self
+    {
+        if ($this->hotels->contains($hotel)) {
+            $this->hotels->removeElement($hotel);
+            // set the owning side to null (unless already changed)
+            if ($hotel->getTour() === $this) {
+                $hotel->setTour(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TourCoordinate[]
+     */
+    public function getCoordinates(): Collection
+    {
+        return $this->coordinates;
+    }
+
+    public function addCoordinate(TourCoordinate $coordinate): self
+    {
+        if (!$this->coordinates->contains($coordinate)) {
+            $this->coordinates[] = $coordinate;
+            $coordinate->setTour($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCoordinate(TourCoordinate $coordinate): self
+    {
+        if ($this->coordinates->contains($coordinate)) {
+            $this->coordinates->removeElement($coordinate);
+            // set the owning side to null (unless already changed)
+            if ($coordinate->getTour() === $this) {
+                $coordinate->setTour(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getLowsell(): ?float
+    {
+        return $this->lowsell;
+    }
+
+    public function setLowsell(string $lowsell): self
+    {
+        $this->lowsell = $lowsell;
 
         return $this;
     }
