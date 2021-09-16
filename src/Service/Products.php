@@ -56,8 +56,8 @@ class Products
        //dump($tour);die();
         return $tour;
     }
-    
-    public function getTours($category=null, $country=null, int $start=0, int $qty=3)
+
+    public function getTours($category=null, $country=null, int $passengers=2, int $start=0, int $qty=3)
     {
         $use_external_api = $this->params->get('opentour.externalapi');
 
@@ -71,6 +71,8 @@ class Products
                 $dataval['servicerequest']['subcategory'] = $category;
             if(!empty($country) && is_string($country) && strlen($country) == 2)
                 $dataval['servicerequest']['country'] = $country;
+
+            $dataval['servicerequest']['passengers'] = $passengers;
 
             $full_list = array();
 
