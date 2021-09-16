@@ -61,6 +61,14 @@ class Tour
 
       private $features;
 
+    /**
+      * @var \Doctrine\Common\Collections\Collection
+      *
+      * @ORM\OneToMany(targetEntity="Apothan\OpenTourLibBundle\Entity\TourIncluded", mappedBy="tour", cascade={"persist","remove"})
+      */
+
+      private $includeds;
+
      /**
       * @var \Doctrine\Common\Collections\Collection
       *
@@ -82,12 +90,18 @@ class Tour
      */
     private $lowsell;
 
+    /**
+     * @ORM\Column(type="int")
+     */
+    private $duration;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->selldatebreaks = new ArrayCollection();
         $this->itinerary = new ArrayCollection();
         $this->features = new ArrayCollection();
+        $this->includeds = new ArrayCollection();
         $this->hotels = new ArrayCollection();
         $this->coordinates = new ArrayCollection();
     }
@@ -100,7 +114,7 @@ class Tour
     public function setId(int $id): self
     {
         $this->id = $id;
-        
+
         return $this;
     }
 
@@ -253,6 +267,37 @@ class Tour
     }
 
     /**
+     * @return Collection|TourIncluded[]
+     */
+    public function getIncludeds(): Collection
+    {
+        return $this->includeds;
+    }
+
+    public function addIncluded(TourIncluded $included): self
+    {
+        if (!$this->includeds->contains($included)) {
+            $this->includeds[] = $included;
+            $included->setTour($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIncluded(TourIncluded $included): self
+    {
+        if ($this->includeds->contains($included)) {
+            $this->includeds->removeElement($included);
+            // set the owning side to null (unless already changed)
+            if ($included->getTour() === $this) {
+                $included->setTour(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection|TourHotel[]
      */
     public function getHotels(): Collection
@@ -322,6 +367,18 @@ class Tour
     public function setLowsell(string $lowsell): self
     {
         $this->lowsell = $lowsell;
+
+        return $this;
+    }
+
+    public function getDuration(): ?float
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(string $duration): self
+    {
+        $this->duration = $duration;
 
         return $this;
     }

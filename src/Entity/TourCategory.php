@@ -30,6 +30,11 @@ class TourCategory
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=200)
+     */
+    private $shortname;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $min;
@@ -99,6 +104,18 @@ class TourCategory
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getShortname(): ?string
+    {
+        return $this->shortname;
+    }
+
+    public function setShortname(string $shortname): self
+    {
+        $this->shortname = $shortname;
 
         return $this;
     }

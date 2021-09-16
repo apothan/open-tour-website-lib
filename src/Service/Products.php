@@ -7,8 +7,11 @@ use Apothan\OpenTourLibBundle\Entity\Tour;
 use Apothan\OpenTourLibBundle\Entity\TourCategory;
 use Apothan\OpenTourLibBundle\Entity\TourHotel;
 use Apothan\OpenTourLibBundle\Entity\TourCoordinate;
+use Apothan\OpenTourLibBundle\Entity\TourItinerary;
 use Apothan\OpenTourLibBundle\Entity\SellDateBreak;
 use Apothan\OpenTourLibBundle\Entity\SellAmount;
+use Apothan\OpenTourLibBundle\Entity\TourIncluded;
+use Apothan\OpenTourLibBundle\Entity\TourFeature;
 use Apothan\OpenTourLibBundle\Service\RestClient;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
@@ -42,6 +45,7 @@ class Products
             $return = $this->restclient->post('https://'.$ApiUrl.'/api/productdetails.json', $json);
 
             $tour2 = json_decode($return, true);
+           
             $tour = $this->mergeProductTour($tour2);
         }
         else
@@ -114,6 +118,7 @@ class Products
                 $category = new TourCategory();
                 $category->setId($cat['id']);
                 $category->setName($cat['category']);
+                $category->setShortname($cat['catshort']);
                 $category->setMin($cat['min']);
                 $category->setMax($cat['max']);
                 $category->setPricing($cat['pricing']);
@@ -142,7 +147,7 @@ class Products
                     $sellAmount->setAmount($amount['amount']);
                    
                     foreach($tour->getCategories() as $cat)
-                        if($cat->getCode() == $amount['categoryid'])
+                        if($cat->getId() == $amount['categoryid'])
                         {
                             $cat->addSellamount($sellAmount);
                         }
@@ -175,6 +180,34 @@ class Products
                 $tourHotel->setImage($hotel['image']);
 
                 $tour->addHotel($tourHotel);
+            }
+
+        if(isset($tourold['itinerary']))
+            foreach($tourold['itinerary'] as $itin)
+            {
+                $itinerary = new TourItinerary();
+                $itinerary->setHeader($itin['header']);
+                $itinerary->setDescription($itin['itin']);
+
+                $tour->addItinerary($itinerary);
+            }
+
+        if(isset($tourold['included']))
+            foreach($tourold['included'] as $included)
+            {
+                $tourIncluded = new TourIncluded();
+                $tourIncluded->setDescription($included['text']);
+
+                $tour->addIncluded($tourIncluded);
+            }
+
+        if(isset($tourold['feature']))
+            foreach($tourold['feature'] as $feature)
+            {
+                $tourFeature = new TourFeature();
+                $tourFeature->setDescription($feature['text']);
+
+                $tour->addIncluded($tourFeature);
             }
 
         return $tour;
