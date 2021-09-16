@@ -25,7 +25,7 @@ class DefaultController extends AbstractController
     public function index()
     {
         $tours = [];
-        $tours =  $this->product_service->getTours(3);
+        $tours =  $this->product_service->getTours();
 
         return $this->render('@ApothanOpenTourLib/index.html.twig', [
             'tours' => $tours,
@@ -39,7 +39,7 @@ class DefaultController extends AbstractController
     public function tour($id)
     {
         $menuitems = $this->menu_service->getMenuItems();
-
+        
         $tour = $this->product_service->getTour($id);
         
         return $this->render('@ApothanOpenTourLib/tour.html.twig', [

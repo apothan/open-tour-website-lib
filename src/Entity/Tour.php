@@ -30,6 +30,13 @@ class Tour
     private $description;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="name", type="string", length=200, nullable=true)
+     */
+    private $image;
+
+    /**
       * @var \Doctrine\Common\Collections\Collection
       *
       * @ORM\OneToMany(targetEntity="Apothan\OpenTourLibBundle\Entity\TourCategory", mappedBy="tour", cascade={"persist","remove"})
@@ -381,5 +388,25 @@ class Tour
         $this->duration = $duration;
 
         return $this;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

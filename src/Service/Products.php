@@ -116,9 +116,12 @@ class Products
     {
         $tour = new Tour();
         $tour->setId($tourold['productid']);
-        $tour->setName($tourold['name']);
+        $name = $tourold['servicename'] ?? $tourold['name'];
+        $tour->setName($name);
         $tour->setDescription($tourold['description']);
-        $tour->setLowsell($tourold['low']);
+        $lowsell = $tourold['lowsell'] ?? $tourold['low'];
+        $tour->setLowsell($lowsell);
+        $tour->setImage($tourold['image']);
 
         if(isset($tourold['categories']))
             foreach($tourold['categories'] as $cat)
