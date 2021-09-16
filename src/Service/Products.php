@@ -56,15 +56,21 @@ class Products
        //dump($tour);die();
         return $tour;
     }
-    public function getTours($qty)
+    
+    public function getTours($category=null, $country=null, int $start=0, int $qty=3)
     {
         $use_external_api = $this->params->get('opentour.externalapi');
 
         if ($use_external_api == true)
         {
-            $dataval['start'] = 0;
-            $dataval['records'] = 3;
+            $dataval['start'] = $start;
+            $dataval['records'] = $qty;
             $dataval['servicerequest']['category'] = 'Tour';
+            
+            if(!empty($category) && is_int($category))
+                $dataval['servicerequest']['subcategory'] = $category;
+            if(!empty($country) && is_string($country) && strlen($country) == 2)
+                $dataval['servicerequest']['country'] = $country;
 
             $full_list = array();
 
@@ -93,13 +99,13 @@ class Products
     //***** Any differences should eventually be cleaned up */
     private function openTourNormaliser($tours)
     {
+        $nomalizedTours = [];
         foreach ($tours as $key => $tour)
         {
-            $tours[$key]['name'] = $tour['servicename'];
-            $tours[$key]['id'] = $tour['productid'];
+            $nomalizedTours[] = $this->mergeProductTour($tour);
         }
 
-        return $tours;
+        return $nomalizedTours;
     }
 
     //***** Converts the returned product array into Tour object */
