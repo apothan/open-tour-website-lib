@@ -121,6 +121,7 @@ class Products
         $tour->setDescription($tourold['description']);
         $lowsell = $tourold['lowsell'] ?? $tourold['low'];
         $tour->setLowsell($lowsell);
+        $tour->setDuration($tourold['duration']);
         $tour->setImage($tourold['image']);
 
         if(isset($tourold['categories']))
