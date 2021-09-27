@@ -121,7 +121,7 @@ class Products
         $tour->setDescription($tourold['description']);
         $lowsell = $tourold['lowsell'] ?? $tourold['low'];
         $tour->setLowsell($lowsell);
-        $tour->setDuration($tourold['duration']);
+        $tour->setDuration($tourold['duration'] ?? '');
         $tour->setImage($tourold['image']);
 
         if(isset($tourold['categories']))
@@ -199,7 +199,7 @@ class Products
             {
                 $itinerary = new TourItinerary();
                 $itinerary->setHeader($itin['header']);
-                $itinerary->setDescription($itin['itin']);
+                $itinerary->setDescription($itin['itin'] ?? '');
 
                 $tour->addItinerary($itinerary);
             }
