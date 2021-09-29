@@ -25,7 +25,7 @@ class Tour
     private $name;
 
      /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=200)
      */
     private $shortname;
 
