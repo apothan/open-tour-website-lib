@@ -24,6 +24,11 @@ class Tour
      */
     private $name;
 
+     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $shortname;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
@@ -133,6 +138,18 @@ class Tour
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getShortname(): ?string
+    {
+        return $this->shortname;
+    }
+
+    public function setShortname(string $shortname): self
+    {
+        $this->shortname = $shortname;
 
         return $this;
     }

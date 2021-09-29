@@ -118,6 +118,7 @@ class Products
         $tour->setId($tourold['productid']);
         $name = $tourold['servicename'] ?? $tourold['name'];
         $tour->setName($name);
+        $tour->setName($tourold['sname']);
         $tour->setDescription($tourold['description']);
         $lowsell = $tourold['lowsell'] ?? $tourold['low'];
         $tour->setLowsell($lowsell);
