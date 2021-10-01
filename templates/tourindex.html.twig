@@ -1,15 +1,14 @@
 {% extends "@ApothanOpenTourLib/adminbase.html.twig" %}
- {% block lower %}
-   
+ {% block body %}
     {% block javascripts %}
         {{ parent() }}
         {{ encore_entry_script_tags('tourfeatures') }}
     {% endblock %}
-        <div class="row">
-            <div class="col">
-                {% for tour in tours %}
-                    {{ tour.name }}
-                {% endfor %}
-            </div>
+        <div class="d-grid gap-1">
+            {% for tour in tours %}
+                <a href="{{ path('ot_tour', { 'id': tour.id } ) }}" type="button" class="btn btn-primary btn-block button-list">
+                    <h4>{{ tour.name }}</h4>
+                </a>
+            {% endfor %}
         </div>
  {% endblock %}
