@@ -1,12 +1,10 @@
-{% extends "@ApothanOpenTourLib/tourbase.html.twig" %}
+{% extends "@ApothanOpenTourLib/adminbase.html.twig" %}
  {% block lower %}
    
     {% block javascripts %}
         {{ parent() }}
         {{ encore_entry_script_tags('tourfeatures') }}
     {% endblock %}
-        {% form_theme tourform 'bootstrap_4_layout.html.twig' %}
-        
         <div class="row">
             <div class="col">
                 {% for tour in tours %}
