@@ -47,4 +47,22 @@ class DefaultController extends AbstractController
             'menu' => $this->menu_service->getMenuItems(),
         ]);
     }
+
+    /**
+     * @Route("/Country/{country}/Category/{category}", name="ot_tour_index", defaults={"passengers": 2, "start": 0, "qty": 0})
+     */
+    public function tourIndex(string $country, int $category, int $passengers, int $start, int $qty)
+    {
+        $menuitems = $this->menu_service->getMenuItems();
+        //$request = $this->container->get('request');
+        
+        $dataArray = null;
+
+        $tours = $this->product_service->getTours($category, $country, $passengers, $start, $qty);
+        
+        return $this->render('@ApothanOpenTourLib/tourindex.html.twig', [
+            'tour' => $tour,
+            'menu' => $this->menu_service->getMenuItems(),
+        ]);
+    }
 }
