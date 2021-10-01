@@ -56,12 +56,10 @@ class DefaultController extends AbstractController
         $menuitems = $this->menu_service->getMenuItems();
         //$request = $this->container->get('request');
         
-        $dataArray = null;
-
         $tours = $this->product_service->getTours($category, $country, $passengers, $start, $qty);
         
         return $this->render('@ApothanOpenTourLib/tourindex.html.twig', [
-            'tour' => $tour,
+            'tours' => $tours,
             'menu' => $this->menu_service->getMenuItems(),
         ]);
     }
