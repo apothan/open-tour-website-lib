@@ -7,6 +7,7 @@
     </head>
     <body>
         <div class="ot_main">
+        {{ dump(menu) }}
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="{{ path('ot_home') }}">Open Tours</a>
@@ -15,23 +16,29 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                        </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Italy
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    {% for country in menu.countries %}
+                                        {% if country.name == 'Italy' %}
+                                            {% for category in country.categories %}
+                                                <a class="dropdown-item" href="{{ path('ot_tour_index', { 'country': country.code, 'category': category.id, 'passengers':2, 'start': 0, 'qty':3 }) }}">{{ category.name }}</a>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('ot_about') }}">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('ot_contact') }}">Contact</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('ot_terms') }}">Terms & Conditions</a>
+                            </li>
                         </ul>
                         <form class="form-inline my-2 my-lg-0">
                             <span><input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></span>
