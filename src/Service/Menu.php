@@ -298,6 +298,7 @@ class Menu
                     //add the country to the category
                     $categories[$key]['countries'][$key2]['name'] = Countries::getName($countryInfo['country']);
                     $categories[$key]['countries'][$key2]['code'] = $countryInfo['country'];
+                    $categories[$key]['countries'][$key2]['total'] = $countryInfo['total'];
                 }
             }
 
@@ -313,6 +314,7 @@ class Menu
                     {
                         $countries[$key]['categories'][$key2]['name'] = $categoryInfo['category'];
                         $countries[$key]['categories'][$key2]['id'] = $categoryInfo['id'];
+                        $countries[$key]['categories'][$key2]['total'] = $categoryInfo['total'];
                     }
             }
         }

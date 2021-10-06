@@ -2,7 +2,6 @@
  {% block body %}
     {% block javascripts %}
         {{ parent() }}
-        {{ encore_entry_script_tags('tourfeatures') }}
     {% endblock %}
         <div class="d-grid gap-1">
             {% for tour in tours %}

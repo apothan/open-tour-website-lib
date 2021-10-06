@@ -19,11 +19,20 @@
         "symfony/framework-bundle": "5.3.*",
         "symfony/twig-bundle": "5.3.*",
         "symfony/yaml": "5.3.*",
-        "symfony/orm-pack" : "2.1.0",
         "sensio/framework-extra-bundle": "^6.1",
         "doctrine/annotations": "^1.12",
         "twig/extra-bundle": "^3.3",
-        "twig/intl-extra": "^3.3"
+        "twig/intl-extra": "^3.3",
+        "doctrine/orm": "^2.9",
+        "symfony/dotenv": "5.3.*",
+        "doctrine/doctrine-bundle": "^2.4",
+        "symfony/monolog-bundle": "^3.7",
+        "symfony/webpack-encore-bundle": "^1.12",
+        "doctrine/doctrine-migrations-bundle": "^3.1",
+        "symfony/translation": "5.3.*",
+        "symfony/notifier": "5.3.*",
+        "symfony/validator": "5.3.*",
+        "symfony/security-bundle": "5.3.*"
     },
     "autoload": {
         "psr-4": {
@@ -34,6 +43,16 @@
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        }
+        },
+        "test": [
+            "./vendor/bin/simple-phpunit"
+        ]
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "^5.3",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "phpunit/phpunit": "^9.5",
+        "symfony/browser-kit": "5.3.*",
+        "symfony/css-selector": "5.3.*"
     }
 }

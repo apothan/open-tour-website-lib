@@ -1,6 +1,6 @@
 <?php
 
-use App\Kernel;
+use Apothan\OpenTourLibBundle\Kernel;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;

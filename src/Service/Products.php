@@ -28,7 +28,7 @@ class Products
         $this->params = $params;
         $this->restclient = $restclient;
     }
-    public function getTour($tourid)
+    public function getTour($tourid) : Tour
     {
         $use_external_api = $this->params->get('opentour.externalapi');
 
@@ -53,11 +53,10 @@ class Products
             $tour = $this->em->getRepository(Tour::class)->find($tourid);
         }
 
-       //dump($tour);die();
         return $tour;
     }
 
-    public function getTours($category=null, $country=null, int $passengers=2, int $start=0, int $qty=3)
+    public function getTours($category=null, $country=null, int $passengers=2, int $start=0, int $qty=3) : array
     {
         $use_external_api = $this->params->get('opentour.externalapi');
 
