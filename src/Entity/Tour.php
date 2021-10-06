@@ -37,7 +37,7 @@ class Tour
     /**
      * @var string|null
      *
-     * @ORM\Column(name="name", type="string", length=200, nullable=true)
+     * @ORM\Column(type="string", length=200, nullable=true)
      */
     private $image;
 
@@ -103,7 +103,7 @@ class Tour
     private $lowsell;
 
     /**
-     * @ORM\Column(type="int")
+     * @ORM\Column(type="integer")
      */
     private $duration;
 
