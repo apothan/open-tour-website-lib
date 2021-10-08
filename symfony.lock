@@ -159,6 +159,18 @@
     "sebastian/version": {
         "version": "3.0.2"
     },
+    "symfony/apache-pack": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "9d254a22efca7264203eea98b866f16f944b2f09"
+        },
+        "files": [
+            "public/.htaccess"
+        ]
+    },
     "symfony/asset": {
         "version": "v5.3.4"
     },
@@ -175,6 +187,9 @@
         "version": "v5.3.7"
     },
     "symfony/dotenv": {
+        "version": "v5.3.8"
+    },
+    "symfony/form": {
         "version": "v5.3.8"
     },
     "symfony/monolog-bridge": {
@@ -207,6 +222,9 @@
             "config/packages/notifier.yaml"
         ]
     },
+    "symfony/options-resolver": {
+        "version": "v5.3.7"
+    },
     "symfony/password-hasher": {
         "version": "v5.3.8"
     },
@@ -224,6 +242,9 @@
             "phpunit.xml.dist",
             "tests/bootstrap.php"
         ]
+    },
+    "symfony/polyfill-intl-icu": {
+        "version": "v1.23.0"
     },
     "symfony/polyfill-php72": {
         "version": "v1.23.0"
