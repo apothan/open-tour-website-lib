@@ -16,19 +16,32 @@ use Apothan\OpenTourLibBundle\Form\Type\TourSellsType;
 use Apothan\OpenTourLibBundle\Form\Type\TourBreakAddType;
 use Apothan\OpenTourLibBundle\Form\Type\TourFeaturesType;
 use Apothan\OpenTourLibBundle\Form\Type\TourItineraryType;
+use Apothan\OpenTourLibBundle\Service\Products;
+use Apothan\OpenTourLibBundle\Service\Menu;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TourController extends AbstractController
 {
+
+    public function __construct(Products $product_service, Menu $menu_service)
+    {
+        $this->product_service = $product_service;
+        $this->menu_service = $menu_service;
+    }
+
+
     /**
      * @Route("/Admin/AddTour", name="ot_admin_addtour")
      */
     public function addTour()
     {
-        $entity = new Tour();
-    	$tourForm = $this->createForm(AddTourType::class, $entity);
+        $menuitems = $this->menu_service->getMenuItems();
+        $tour = new Tour();
+    	$tourForm = $this->createForm(AddTourType::class, $tour);
 
         return $this->render('@ApothanOpenTourLib/addtour.html.twig', [
             'tourform' => $tourForm->createView(),
+            'menu' => $this->menu_service->getMenuItems(),
         ]);
     }
 
@@ -37,24 +50,26 @@ class TourController extends AbstractController
      */
     public function createTour(Request $request)
     {
-    	$entity = new Tour();
-    	$tourForm = $this->createForm(AddTourType::class, $entity);
+        $menuitems = $this->menu_service->getMenuItems();
+    	$tour = new Tour();
+    	$tourForm = $this->createForm(AddTourType::class, $tour);
     	$tourForm->handleRequest($request);
         
     	if ($tourForm->isValid()) {
             
     		$em = $this->getDoctrine()->getManager();
     		
-    		$em->persist($entity);
+    		$em->persist($tour);
     		$em->flush();
     
     		$this->get('session')->getFlashBag()->add('complete_message',"This tour has been created!");
-    		return $this->redirect($this->generateUrl('ot_admin_edittour', array('id' => $entity->getId())));
+    		return $this->redirect($this->generateUrl('ot_admin_edittour', array('id' => $tour->getId())));
     
     	}
     
     	return $this->render('@ApothanOpenTourLib/addtour.html.twig', [
             'tourform' => $tourForm->createView(),
+            'menu' => $this->menu_service->getMenuItems(),
         ]);
     }
 
@@ -63,18 +78,19 @@ class TourController extends AbstractController
      */
     public function editTour($id)
     {
-        $em = $this->getDoctrine()->getManager();
-    	$entity = $em->getRepository(Tour::class)->find($id);
+        $menuitems = $this->menu_service->getMenuItems();
+        $tour = $this->product_service->getTour($id);
     
-    	if (!$entity) {
+    	if (!$tour) {
     		throw $this->createNotFoundException('Unable to find tour entity.');
         }
         
-    	$tourForm = $this->createForm(EditTourType::class, $entity);
+    	$tourForm = $this->createForm(EditTourType::class, $tour);
 
         return $this->render('@ApothanOpenTourLib/edittour.html.twig', [
             'tourform' => $tourForm->createView(),
-            'tour' => $entity,
+            'tour' => $tour,
+            'menu' => $this->menu_service->getMenuItems(),
         ]);
     }
 
@@ -83,30 +99,31 @@ class TourController extends AbstractController
      */
     public function updateTour($id, Request $request)
     {
-    	$em = $this->getDoctrine()->getManager();
-    	$entity = $em->getRepository(Tour::class)->find($id);
+        $menuitems = $this->menu_service->getMenuItems();
+    	$tour = $this->product_service->getTour($id);
     
-    	if (!$entity) {
+    	if (!$tour) {
     		throw $this->createNotFoundException('Unable to find tour entity.');
         }
 
-    	$tourForm = $this->createForm(EditTourType::class, $entity);
+    	$tourForm = $this->createForm(EditTourType::class, $tour);
     	$tourForm->handleRequest($request);
     
     	if ($tourForm->isValid()) {
     		$em = $this->getDoctrine()->getManager();
     		
-    		$em->persist($entity);
+    		$em->persist($tour);
     		$em->flush();
     
     		$this->get('session')->getFlashBag()->add('complete_message',"This tour has been updated!");
-    		return $this->redirect($this->generateUrl('ot_admin_edittour', array('id' => $entity->getId())));
+    		return $this->redirect($this->generateUrl('ot_admin_edittour', array('id' => $tour->getId())));
     
     	}
     
     	return $this->render('@ApothanOpenTourLib/edittour.html.twig', [
             'tourform' => $tourForm->createView(),
-            'tour' => $entity,
+            'tour' => $tour,
+            'menu' => $this->menu_service->getMenuItems(),
         ]);
     }
 
@@ -115,21 +132,21 @@ class TourController extends AbstractController
      */
     public function tourCategories($id, Request $request)
     {
-    	$em = $this->getDoctrine()->getManager();
-    	$entity = $em->getRepository(Tour::class)->find($id);
+        $menuitems = $this->menu_service->getMenuItems();
+    	$tour = $this->product_service->getTour($id);
     
-    	if (!$entity) {
+    	if (!$tour) {
     		throw $this->createNotFoundException('Unable to find tour entity.');
         }
 
-    	$tourForm = $this->createForm(TourCategoriesType::class, $entity);
+    	$tourForm = $this->createForm(TourCategoriesType::class, $tour);
     	$tourForm->handleRequest($request);
     
     	if ($tourForm->isSubmitted() && $tourForm->isValid()) {
     		// filter $originalTags to contain tags no longer present
-            foreach ($entity->getCategories() as $category)
+            foreach ($tour->getCategories() as $category)
             {
-                $category->setTour($entity);
+                $category->setTour($tour);
                 if (isset($originalCategories))
                     foreach ($originalCategories as $key => $toDel)
                     {
@@ -145,7 +162,7 @@ class TourController extends AbstractController
                 foreach ($originalCategories as $category)
                 {
                     // remove the Task from the Tag
-                    //$passenger->getTasks()->removeElement($entity);
+                    //$passenger->getTasks()->removeElement($tour);
                     // if it were a ManyToOne relationship, remove the relationship like this
                     //$tag->setTask(null);
 
@@ -155,17 +172,18 @@ class TourController extends AbstractController
                     $em->remove($category);
                 }
 
-            $em->persist($entity);
+            $em->persist($tour);
             $em->flush();
     
     		$this->get('session')->getFlashBag()->add('complete_message',"This tour has been updated!");
-    		return $this->redirect($this->generateUrl('ot_admin_tourcategories', array('id' => $entity->getId())));
+    		return $this->redirect($this->generateUrl('ot_admin_tourcategories', array('id' => $tour->getId())));
     
     	}
     
     	return $this->render('@ApothanOpenTourLib/tourcategories.html.twig', [
             'tourform' => $tourForm->createView(),
-            'tour' => $entity,
+            'tour' => $tour,
+            'menu' => $this->menu_service->getMenuItems(),
         ]);
     }
 
@@ -175,30 +193,30 @@ class TourController extends AbstractController
      */
     public function tourSells($id, Request $request)
     {
-    	$em = $this->getDoctrine()->getManager();
-    	$entity = $em->getRepository(Tour::class)->find($id);
+        $menuitems = $this->menu_service->getMenuItems();
+    	$tour = $this->product_service->getTour($id);
     
-    	if (!$entity) {
+    	if (!$tour) {
     		throw $this->createNotFoundException('Unable to find tour entity.');
         }
 
         $sellbreak = new SellDateBreak();
-        $sellbreak->setTour($entity);
-        foreach ($entity->getCategories() as $cat)
+        $sellbreak->setTour($tour);
+        foreach ($tour->getCategories() as $cat)
         {
             $newsell = new SellAmount();
             $newsell->setTourcategory($cat);
             $sellbreak->addSellamount($newsell);
         }
         $breakAddForm = $this->createForm(TourBreakAddType::class, $sellbreak);
-    	$tourForm = $this->createForm(TourSellsType::class, $entity);
+    	$tourForm = $this->createForm(TourSellsType::class, $tour);
     	$tourForm->handleRequest($request);
     
     	if ($tourForm->isSubmitted() && $tourForm->isValid()) {
     		// filter $originalTags to contain tags no longer present
-            foreach ($entity->getSelldatebreaks() as $break)
+            foreach ($tour->getSelldatebreaks() as $break)
             {
-                $break->setTour($entity);
+                $break->setTour($tour);
                 if (isset($originalCategories))
                     foreach ($originalSelldatebreaks as $key => $toDel)
                     {
@@ -214,7 +232,7 @@ class TourController extends AbstractController
                 foreach ($originalSelldatebreaks as $break)
                 {
                     // remove the Task from the Tag
-                    //$passenger->getTasks()->removeElement($entity);
+                    //$passenger->getTasks()->removeElement($tour);
                     // if it were a ManyToOne relationship, remove the relationship like this
                     //$tag->setTask(null);
 
@@ -224,18 +242,19 @@ class TourController extends AbstractController
                     $em->remove($break);
                 }
     		
-    		$em->persist($entity);
+    		$em->persist($tour);
     		$em->flush();
     
     		$this->get('session')->getFlashBag()->add('complete_message',"This tour has been updated!");
-    		return $this->redirect($this->generateUrl('ot_admin_toursells', array('id' => $entity->getId())));
+    		return $this->redirect($this->generateUrl('ot_admin_toursells', array('id' => $tour->getId())));
     
     	}
     
     	return $this->render('@ApothanOpenTourLib/toursells.html.twig', [
             'tourform' => $tourForm->createView(),
             'breakaddform' => $breakAddForm->createView(),
-            'tour' => $entity,
+            'tour' => $tour,
+            'menu' => $this->menu_service->getMenuItems(),
         ]);
     }
 
@@ -244,16 +263,16 @@ class TourController extends AbstractController
      */
     public function tourSellAdd($id, Request $request)
     {
-    	$em = $this->getDoctrine()->getManager();
-    	$entity = $em->getRepository(Tour::class)->find($id);
+        $menuitems = $this->menu_service->getMenuItems();
+    	$tour = $this->product_service->getTour($id);
     
-    	if (!$entity) {
+    	if (!$tour) {
     		throw $this->createNotFoundException('Unable to find tour entity.');
         }
 
         $sellbreak = new SellDateBreak();
-        $sellbreak->setTour($entity);
-        foreach ($entity->getCategories() as $cat)
+        $sellbreak->setTour($tour);
+        foreach ($tour->getCategories() as $cat)
         {
             $newsell = new SellAmount();
             $newsell->setTourcategory($cat);
@@ -268,7 +287,7 @@ class TourController extends AbstractController
             $em->flush();
             
             $this->get('session')->getFlashBag()->add('complete_message',"This date has been added!");
-    		return $this->redirect($this->generateUrl('ot_admin_toursells', array('id' => $entity->getId())));
+    		return $this->redirect($this->generateUrl('ot_admin_toursells', array('id' => $tour->getId())));
         }
     }
 
@@ -277,21 +296,21 @@ class TourController extends AbstractController
      */
     public function tourItinerary($id, Request $request)
     {
-    	$em = $this->getDoctrine()->getManager();
-    	$entity = $em->getRepository(Tour::class)->find($id);
+        $menuitems = $this->menu_service->getMenuItems();
+    	$tour = $this->product_service->getTour($id);
     
-    	if (!$entity) {
+    	if (!$tour) {
     		throw $this->createNotFoundException('Unable to find tour entity.');
         }
 
-    	$tourForm = $this->createForm(TourItineraryType::class, $entity);
+    	$tourForm = $this->createForm(TourItineraryType::class, $tour);
     	$tourForm->handleRequest($request);
     
     	if ($tourForm->isSubmitted() && $tourForm->isValid()) {
     		// filter $originalTags to contain tags no longer present
-            foreach ($entity->getItinerary() as $day)
+            foreach ($tour->getItinerary() as $day)
             {
-                $day->setTour($entity);
+                $day->setTour($tour);
                 if (isset($originalItinerary))
                     foreach ($originalItinerary as $key => $toDel)
                     {
@@ -307,7 +326,7 @@ class TourController extends AbstractController
                 foreach ($originalItinerary as $day)
                 {
                     // remove the Task from the Tag
-                    //$passenger->getTasks()->removeElement($entity);
+                    //$passenger->getTasks()->removeElement($tour);
                     // if it were a ManyToOne relationship, remove the relationship like this
                     //$tag->setTask(null);
 
@@ -317,17 +336,18 @@ class TourController extends AbstractController
                     $em->remove($day);
                 }
     		
-    		$em->persist($entity);
+    		$em->persist($tour);
     		$em->flush();
     
     		$this->get('session')->getFlashBag()->add('complete_message',"This tour has been updated!");
-    		return $this->redirect($this->generateUrl('ot_admin_touritinerary', array('id' => $entity->getId())));
+    		return $this->redirect($this->generateUrl('ot_admin_touritinerary', array('id' => $tour->getId())));
     
     	}
     
     	return $this->render('@ApothanOpenTourLib/touritinerary.html.twig', [
             'tourform' => $tourForm->createView(),
-            'tour' => $entity,
+            'tour' => $tour,
+            'menu' => $this->menu_service->getMenuItems(),
         ]);
     }
 
@@ -336,21 +356,21 @@ class TourController extends AbstractController
      */
     public function tourFeatures($id, Request $request)
     {
-    	$em = $this->getDoctrine()->getManager();
-    	$entity = $em->getRepository(Tour::class)->find($id);
+        $menuitems = $this->menu_service->getMenuItems();
+    	$tour = $this->product_service->getTour($id);
     
-    	if (!$entity) {
+    	if (!$tour) {
     		throw $this->createNotFoundException('Unable to find tour entity.');
         }
 
-    	$tourForm = $this->createForm(TourFeaturesType::class, $entity);
+    	$tourForm = $this->createForm(TourFeaturesType::class, $tour);
     	$tourForm->handleRequest($request);
     
     	if ($tourForm->isSubmitted() && $tourForm->isValid()) {
     		// filter $originalTags to contain tags no longer present
-            foreach ($entity->getFeatures() as $feature)
+            foreach ($tour->getFeatures() as $feature)
             {
-                $feature->setTour($entity);
+                $feature->setTour($tour);
                 if (isset($originalFeatures))
                     foreach ($originalFeatures as $key => $toDel)
                     {
@@ -366,7 +386,7 @@ class TourController extends AbstractController
                 foreach ($originalFeatures as $feature)
                 {
                     // remove the Task from the Tag
-                    //$passenger->getTasks()->removeElement($entity);
+                    //$passenger->getTasks()->removeElement($tour);
                     // if it were a ManyToOne relationship, remove the relationship like this
                     //$tag->setTask(null);
 
@@ -376,17 +396,40 @@ class TourController extends AbstractController
                     $em->remove($feature);
                 }
     		
-    		$em->persist($entity);
+    		$em->persist($tour);
     		$em->flush();
     
     		$this->get('session')->getFlashBag()->add('complete_message',"This tour has been updated!");
-    		return $this->redirect($this->generateUrl('ot_admin_tourfeatures', array('id' => $entity->getId())));
+    		return $this->redirect($this->generateUrl('ot_admin_tourfeatures', array('id' => $tour->getId())));
     
     	}
     
     	return $this->render('@ApothanOpenTourLib/tourfeatures.html.twig', [
             'tourform' => $tourForm->createView(),
-            'tour' => $entity,
+            'tour' => $tour,
+            'menu' => $this->menu_service->getMenuItems(),
         ]);
     }
+
+    /**
+     * @Route("/BookTour/{id}", name="ot_booktour")
+     */
+    public function bookTour($id, ParameterBagInterface $params)
+    {
+        $menuitems = $this->menu_service->getMenuItems();
+        $tour = $this->product_service->getTour($id);
+    
+    	if (!$tour) {
+    		throw $this->createNotFoundException('Unable to find tour entity.');
+        }
+        
+        $bookingURL = $params->get('opentour.apibookingurl');
+        
+        return $this->render('@ApothanOpenTourLib/booking.html.twig', [
+            'bookingUrl' => $bookingURL,
+            'tour' => $tour,
+            'menu' => $this->menu_service->getMenuItems()
+        ]);
+    }
+    
 }

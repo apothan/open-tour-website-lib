@@ -6,6 +6,7 @@
 parameters:
     opentour.externalapi: '%env(API_EXTERNAL)%'
     opentour.apiurl: '%env(string:API_URL)%'
+    opentour.apibookingurl: '%env(string:API_BOOKING_URL)%'
     opentour.apiuser: '%env(string:API_USER)%'
     opentour.apipass: '%env(string:API_PASSWORD)%'
 
