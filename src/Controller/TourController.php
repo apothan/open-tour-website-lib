@@ -418,12 +418,14 @@ class TourController extends AbstractController
     {
         $menuitems = $this->menu_service->getMenuItems();
         $tour = $this->product_service->getTour($id);
-    
+        
     	if (!$tour) {
     		throw $this->createNotFoundException('Unable to find tour entity.');
         }
         
         $bookingURL = $params->get('opentour.apibookingurl');
+
+        $bookingURL = str_replace('{id}',$tour->getId(),$bookingURL);
         
         return $this->render('@ApothanOpenTourLib/booking.html.twig', [
             'bookingUrl' => $bookingURL,

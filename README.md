@@ -53,7 +53,7 @@ Add this configuration to your .env file
 ###> apothan/open-tour-website-li ###
 API_EXTERNAL=true
 API_URL=apiurl.com
-API_BOOKING_URL=apiurl.com/booking
+API_BOOKING_URL=apiurl.com/booking/{id}
 API_USER=myusername
 API_PASSWORD=mypassword
 ###> apothan/open-tour-website-li ###
